@@ -1,8 +1,6 @@
-class warrior:
-  race = "Human"
-  type = "Warrior"
-  def __init__(self, health, stamina, bag, location):
+class Player(object):
+  def __init__(self, health, stamina, potions):
     self.health = health
     self.stamina = stamina
-    self.bag = bag
-    self.location = location
+    self.bag = { 'Potions':int(potions) }
+    self.location = outside
