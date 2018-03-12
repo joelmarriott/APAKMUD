@@ -26,7 +26,7 @@ def selDiff():
     return health, stamina, potions     # H/S/P returned by function
 
 if __name__ == '__main__':              # If program is "main"
-    deaths = 0                          # Initialize death count
+    deaths = 0                          # Initialize death count [ADD TO PLAYER]
     while 1:
         
         health, stamina, potions = selDiff()
@@ -36,5 +36,5 @@ if __name__ == '__main__':              # If program is "main"
             nextrm = getattr(r1, p1.loc)# Get room
             p1 = nextrm(p1)             # Go to next room
 
-        deaths += 1
+        deaths += 1                     # [ADD TO PLAYER]
         raw_input("You died. You have died " + str(deaths) + " times. Continue?")
