@@ -26,7 +26,7 @@ class Player(object):
         #print 'stamina Getter'        # Uncomment for debug
         return self._stamina
 
-    @health.setter
+    @stamina.setter
     def stamina(self, stamina):
         #print 'stamina Setter'        # Uncomment for debug
         self._stamina = int(stamina)
