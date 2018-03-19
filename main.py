@@ -4,21 +4,21 @@ import player
 def selDiff():
     "Return health, stamina, food and coffee based on difficulty selection"
     while 1:
-        difficulty = raw_input('Please choose difficulty, (\033[92mEasy, \033[93mHard, \033[91mInsane\033[0m): ')
-        difficulty = difficulty.upper()
-        if difficulty == 'EASY':        # On easy
+        difficulty = raw_input('Please choose difficulty (\033[92mEasy, \033[93mHard, \033[91mInsane\033[0m): ')
+        difficulty = difficulty.lower()
+        if difficulty == 'easy':        # On easy
             health = 100                # Health is 100
             stamina = 100               # Stamina is 100
             food = 10                   # There are 10 pieces of food
             coffee = 10                 # There are 10 cups of coffee
             break
-        elif difficulty == 'HARD':      # On hard
+        elif difficulty == 'hard':      # On hard
             health = 50                 # Health is 50
             stamina = 50                # Stamina is 50
             food = 5                    # There are 5 pieces of food
             coffee = 5                  # There are 5 cups of coffee
             break
-        elif difficulty == 'INSANE':    # On insane
+        elif difficulty == 'insane':    # On insane
             health = 10                 # Health is 10
             stamina = 10                # Stamina is 10
             food = 1                    # There is 1 lot of food

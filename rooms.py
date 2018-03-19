@@ -7,8 +7,12 @@ class Room(object):
 
     def endofroom(self, player):
         player.recharge()
-        print('\033[94mEnd of room (Health, Stamina, {Bag Item: Amount}): \033[0m')
-        print('\033[94m' + str(player.health) + ', ' + str(player.stamina) + ', ' + str(player.bag) + '\033[0m')
+        print('\033[94mEnd of room')
+        print('HP: ' + str(player.health) + ' - STAM: ' + str(player.stamina))
+        print('Bag:'),
+        for key in player.bag:
+            print(key + '(' + str(player.bag[key]) + ')'),
+        print('\033[0m ')
         print(' ')
         
     def outside(self, player):
@@ -41,12 +45,12 @@ class Room(object):
             elif option == 'lights':
                 print('\033[93m\"Oh... My lights are on. Better switch those off!\"\033[0m')
                 player.stamina -= 1
-                                                                                      # Add variable to player for carlights
+                player.lightson = False
             elif option == 'lock':
                 print('\033[92mYou lock your car as you leave\033[0m')
                 player.stamina -= 1
+                player.carlock = True
                 x = 0
-                                                                                      # Add variable to player for carlocked
             elif option != 'leave':
                 print('\033[91mInput invalid.\033[0m')
             else:
@@ -64,6 +68,7 @@ class Room(object):
             print "\033[91mYou forgot your keyfob...\033[0m"
             player.health -= 40         # Player loses 40 health
             player.stamina -= 20        # Lose 20 stamina to go back outside
+            player.loc = 'outside'
         return player                   # Update player
 
     def hallway(self, player):
