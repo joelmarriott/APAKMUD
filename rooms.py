@@ -2,13 +2,15 @@ import player
 
 class Room(object):
     def __init__(self):                 # Initialize room
+        self.inv = {}                   # Initialize inventory
         self.walls = 0                  # With no walls (outside)
         self.roof = 0                   # With no roof (outside)
+        self.inv['Keyfob'] = 1
 
     def endofroom(self, player):
         player.recharge()
         print('\033[94mEnd of room')
-        print('HP: ' + str(player.health) + ' - STAM: ' + str(player.stamina))
+        print('HP: ' + str(player.health) + '/' + str(player.maxhp) + ' - STAM: ' + str(player.stamina) + '/' + str(player.maxstam))
         print('Bag:'),
         for key in player.bag:
             print(key + '(' + str(player.bag[key]) + ')'),
@@ -33,23 +35,36 @@ class Room(object):
 
     def car(self, player):
         x = 1
-        print('\033[92mYou noticed your car door was unlocked. Lucky you came back!\033[0m')
+        if player.carlock == False:
+            print('\033[92mYou noticed your car door was unlocked. Lucky you came back!\033[0m')
+        else:
+            print('\033[92mYou unlock your car and get in.\033[0m')
+            player.carlock = False      # Unlock car
         while x == 1:
             option = raw_input('(Glovebox/Lights/Lock/Leave): ')
             option = option.lower()
 
             if option == 'glovebox':
-                print('\033[92mYou rummage around in your car, and find your keyfob. Oops!\033[0m')
-                player.bag['Keyfob'] = 1# Add keyfob to bag
+                if self.inv['Keyfob'] >= 1:
+                    print('\033[92mYou rummage around in your car, and find your keyfob. Oops!\033[0m')
+                    self.inv['Keyfob'] -= 1  # Remove keyfob from room inventory
+                    player.bag['Keyfob'] += 1 # Add keyfob to bag
+                else:
+                    print('\033[92mYou rummage around in your car, but find nothing.\033[0m')
                 player.stamina -= 1
             elif option == 'lights':
-                print('\033[93m\"Oh... My lights are on. Better switch those off!\"\033[0m')
+                if player.lightson == True:
+                    print('\033[93m\"Oh... My lights are on. Better switch those off!\"\033[0m')
+                    player.lightson = False # Turn lights off
+                else:
+                    print('\033[92mYou turn your lights on.\033[0m')
+                    player.lightson = True # Turn lights on
                 player.stamina -= 1
-                player.lightson = False
+                
             elif option == 'lock':
                 print('\033[92mYou lock your car as you leave\033[0m')
                 player.stamina -= 1
-                player.carlock = True
+                player.carlock = True   # Lock car
                 x = 0
             elif option != 'leave':
                 print('\033[91mInput invalid.\033[0m')

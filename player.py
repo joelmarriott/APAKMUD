@@ -4,7 +4,7 @@ class Player(object):
         self.stamina = stamina         # Set stamina
         self.maxhp = health            # Set maximum health
         self.maxstam = stamina         # Set maximum stamina
-        self.bag = { 'Food':int(food), 'Coffee':int(coffee) }
+        self.bag = { 'Keyfob':0, 'Food':int(food), 'Coffee':int(coffee) }
         self.loc = 'outside'           # Where are they?
         self.isalive = True            # Are they alive?
         self.difficulty = difficulty   # What is their difficulty?

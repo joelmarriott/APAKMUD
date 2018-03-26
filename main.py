@@ -25,9 +25,36 @@ def selDiff():
             coffee = 1                  # There is 1 cup of coffee
             break
         else:
-            print("\033[91mInput invalid.\033[0m")
-    print(' ')                           # Output empty line to break things up
+            print('\033[91mInput invalid.\033[0m')
+
+    print(' ')                          # Output empty line to break things up
+    
     return health, stamina, food, coffee, difficulty # H/S/F/C/D returned by function
+
+def menu():
+    while 1:
+        option = raw_input('\033[92mSelect menu option ([E]at, [D]rink, [C]ontinue): ')
+        option = option.lower()
+    
+        if option == 'e':
+            if p1.bag['Food'] >= 1:
+                p1.bag['Food'] -= 1
+                p1.health += (p1.maxhp / 3)
+                print('\033[92mHealth restored by ' + str((p1.maxhp / 3)) + ' \033[0m')
+            else:
+                print('\033[91mYou do not have any food\033[0m')
+        elif option == 'd':
+            if p1.bag['Coffee'] >= 1:
+                p1.bag['Coffee'] -= 1
+                p1.stamina += (p1.maxstam / 3)
+                print('\033[92mStamina restored by ' + str((p1.maxstam / 3)) + ' \033[0m')
+            else:
+                print('\033[91mYou do not have any coffee\033[0m')
+        elif option == 'c':
+            print(' ')
+            break
+        else:
+            print('\033[91mInput invalid\033[0m')
 
 if __name__ == '__main__':              # If program is "main"
     deaths = 0                          # Initialize death count [ADD TO PLAYER]
@@ -40,6 +67,8 @@ if __name__ == '__main__':              # If program is "main"
             nextrm = getattr(r1, p1.loc)# Get room
             p1 = nextrm(p1)             # Go to next room
             rooms.Room.endofroom(r1, p1)
+            if p1.health > 0:
+                menu()
 
         deaths += 1                     # [ADD TO PLAYER]
         raw_input("\033[91mYou died. You have died " + str(deaths) + " times. Continue?\033[0m")
