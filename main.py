@@ -1,45 +1,67 @@
 import rooms
 import player
 
-def selDiff():
-    "Return health, stamina, food and coffee based on difficulty selection"
+def menu(player):
     while 1:
-        difficulty = raw_input('Please choose difficulty (\033[92mEasy, \033[93mHard, \033[91mInsane\033[0m): ')
-        difficulty = difficulty.lower()
-        if difficulty == 'easy':        # On easy
-            health = 100                # Health is 100
-            stamina = 100               # Stamina is 100
-            food = 10                   # There are 10 pieces of food
-            coffee = 10                 # There are 10 cups of coffee
-            break
-        elif difficulty == 'hard':      # On hard
-            health = 50                 # Health is 50
-            stamina = 50                # Stamina is 50
-            food = 5                    # There are 5 pieces of food
-            coffee = 5                  # There are 5 cups of coffee
-            break
-        elif difficulty == 'insane':    # On insane
-            health = 10                 # Health is 10
-            stamina = 10                # Stamina is 10
-            food = 1                    # There is 1 lot of food
-            coffee = 1                  # There is 1 cup of coffee
-            break
+        option = raw_input('\033[92mSelect menu option (\033[96m[E]\033[92mat, ' +
+                           '\033[96m[D]\033[92mrink, \033[96m[Enter]\033[92m to continue): ')
+        option = option.lower()
+    
+        if option == 'e':
+            if player.bag['Food'] >= 1:
+                player.bag['Food'] -= 1
+                player.health += (player.maxhp / 3)
+                print('\033[92mHealth restored by ' + str((player.maxhp / 3)) + ' \033[0m')
+            else:
+                print('\033[91mYou do not have any food\033[0m')
+        elif option == 'd':
+            if player.bag['Coffee'] >= 1:
+                player.bag['Coffee'] -= 1
+                player.stamina += (player.maxstam / 3)
+                print('\033[92mStamina restored by ' + str((player.maxstam / 3)) + ' \033[0m')
+            else:
+                print('\033[91mYou do not have any coffee\033[0m')
         else:
-            print("\033[91mInput invalid.\033[0m")
-    print(' ')                           # Output empty line to break things up
-    return health, stamina, food, coffee, difficulty # H/S/F/C/D returned by function
+            print(' ')
+            break
+        return player
 
 if __name__ == '__main__':              # If program is "main"
-    deaths = 0                          # Initialize death count [ADD TO PLAYER]
+    players = []
     while 1:
-        
-        health, stamina, food, coffee, difficulty = selDiff()
-        p1 = player.Player(health, stamina, food, coffee, difficulty)
-        r1 = rooms.Room()               # Create an instance of a room
-        while p1.isalive == True:       # Check for death
-            nextrm = getattr(r1, p1.loc)# Get room
-            p1 = nextrm(p1)             # Go to next room
-            rooms.Room.endofroom(r1, p1)
+        pcount = raw_input('\033[92mSelect number of players: \033[0m')
+        pcount = int(pcount)        
+        try:
+            if pcount < 1:
+                raise ValueError, 'Less than 1 player?'
+                break
+        except (ValueError, TypeError):
+            print('Number of players must be greater than 0')
+            break
+            
+        for p in range(pcount):
+            n, h, s, f, c, d = player.Player.setup()
+            players.append(player.Player(n, h, s, f, c, d))
+        break
 
-        deaths += 1                     # [ADD TO PLAYER]
-        raw_input("\033[91mYou died. You have died " + str(deaths) + " times. Continue?\033[0m")
+    while 1:
+        pcount = len(players)
+        for t in range(pcount):
+            for isalive in str(players[t].isalive):
+                room = rooms.Room()               # Create an instance of a room
+                if players[t].isalive:
+                    print('                              \033[93mIt is ' + players[t].name + '\'s turn\033[0m')
+                    print('')                         # show name
+                    nextrm = getattr(room, players[t].loc)  # Get room
+                    players[t] = nextrm(players[t])             # Go to next room
+                    rooms.Room.endofroom(room, players[t])
+                    if players[t].health > 0:
+                        menu(players[t])
+                elif players[t].dead == False:
+                    print('                              \033[91m' + players[t].name + ' is dead.\033[0m')
+                    break
+                else:
+                    players[t].deaths += 1                     # [ADD TO PLAYER]
+                    raw_input("\033[91mYou died. You have died " + str(players[t].deaths) + " times. Continue?\033[0m")
+                    players[t].dead == True
+                break

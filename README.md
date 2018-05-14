@@ -1,10 +1,25 @@
 # APAKMUD
 Multi(Single) User Dungeon based on APAK.
 
-# 12/03/2018
-- Seperated out rooms in order to allow easy collaboration
-- Fixed spelling mistakes
-- Added incremental death counter
+# To-do
+- Reception: Add 'Office(Downstairs)', greet, wait, meeting
+- Office(Downstairs): Add stationary, board office, air con, 
+- Hallway: Add coffee machine, toilets, cupboard, upstairs, tech
+- Whatever crazy thing you can think of
+
+# DD/MM/YYYY
+- Unlimited number of players supported
+- Players now have names, specified at the start
+- Each player can have a unique difficulty
+- Hidden options added to some menus
+- Rapport skill added
+
+# 26/03/2018
+- Added a menu to consume food/drink & continue
+- Fixed a bug where menu came up even after hp hits 0
+- Rooms can now have inventories (Keyfob is taken from inv and given to player.bag)
+- Added logic to room to switch lights back on, unlock car on return, keyfob can only be found if present.
+- End of room panel display improvements (HP/STAM displays current/max, bag display tidied up)
 
 # 19/03/2018
 - Colorised things: Narration (Green), Speech (Yellow), Errors/Death Messages (Red), End of Room (Blue)
@@ -16,3 +31,8 @@ Multi(Single) User Dungeon based on APAK.
 - Health and Stamina recharged depending on difficulty every time you enter a new room
 - Bag display on end of room is a lot less cluttered.
 - Car room added, has options which can effect the game.
+
+# 12/03/2018
+- Seperated out rooms in order to allow easy collaboration
+- Fixed spelling mistakes
+- Added incremental death counter
